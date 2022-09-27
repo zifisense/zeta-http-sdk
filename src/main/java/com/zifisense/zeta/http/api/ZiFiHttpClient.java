@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.alibaba.fastjson2.JSON;
 import com.zifisense.zeta.http.api.cache.CacheFactory;
 import com.zifisense.zeta.http.api.model.ApiConfig;
 import com.zifisense.zeta.http.api.model.HttpMethod;
@@ -15,16 +16,15 @@ import com.zifisense.zeta.http.api.util.HttpUtils;
 import com.zifisense.zeta.http.api.util.MiscUtil;
 import com.zifisense.zeta.http.api.util.SignalHelper;
 
-import net.sf.json.JSONObject;
-
 /**
- * Zeta http请求入口
+ * 请使用新的客户端
  * 
- * @Title: com.zifisense.zeta.http.api.ZiFiHttpClient.java.java
- * @Description:
+ * @Title: com.zifisense.zeta.http.api.ZiFiHttpClient.java
+ * @Description: Zeta http请求入口
  * @author huangdg
  * @date 2020年9月1日
  */
+@Deprecated
 public class ZiFiHttpClient {
 	private static final String SIGN_ALGORITHM = "HmacSHA1";
 	private static final String ENCODE_CHARSET = "utf8";
@@ -49,8 +49,6 @@ public class ZiFiHttpClient {
 
 	/**
 	 * 发送请求 返回Json
-	 * 
-	 * @param apiConfig
 	 * @param url           除hostname外请求路径
 	 * @param method        请求方式：get、post
 	 * @param bodyParams    请求body参数; 对于get请求，该参数强制转null
@@ -187,7 +185,7 @@ public class ZiFiHttpClient {
 	 * @throws Exception
 	 */
 	private String encryptBodyParams(String secretKey, Map<String, Object> paramsMap) throws ZiFiException {
-		String jsonString = JSONObject.fromObject(paramsMap).toString();
+		String jsonString = JSON.toJSONString(paramsMap);
 		String ivS = CommonUtils.getRandomString(16);
 		byte[] secretKeyArr = CommonUtils.string2byte(secretKey, ENCODE_CHARSET);
 		byte[] ivsArr = CommonUtils.string2byte(ivS, ENCODE_CHARSET);

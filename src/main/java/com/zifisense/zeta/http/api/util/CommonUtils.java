@@ -10,10 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.zifisense.zeta.http.api.model.ZiFiException;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * 数据类型转换工具类
@@ -128,11 +127,11 @@ public class CommonUtils {
 	 * @return List<Map<String, Object>>
 	 */
 	public static List<Map<String, Object>> json2List(String jsonStr) {
-		JSONArray jsonArr = JSONArray.fromObject(jsonStr);
+		JSONArray jsonArr = JSONArray.parse(jsonStr);
 		List<Map<String, Object>> list = new ArrayList<>();
-		Iterator<JSONObject> it = jsonArr.iterator();
+		Iterator<Object> it = jsonArr.iterator();
 		while (it.hasNext()) {
-			JSONObject json2 = it.next();
+			JSONObject json2 = JSONObject.parseObject(it.next().toString());
 			list.add(jsonToMap(json2.toString()));
 		}
 		return list;
@@ -148,9 +147,9 @@ public class CommonUtils {
 		try {
 			// JSONObject必须以"{"开头
 			jsonString = jsonString.replace("=,", "=\"\",");
-			JSONObject jsonObject = JSONObject.fromObject(jsonString);
+			JSONObject jsonObject = JSONObject.parseObject(jsonString);
 			resultMap = new HashMap<>();
-			Iterator<String> iter = jsonObject.keys();
+			Iterator<String> iter = jsonObject.keySet().iterator();
 			String key = null;
 			Object value = null;
 			while (iter.hasNext()) {

@@ -36,4 +36,24 @@ public class SignalHelper {
 		} 
 	}
 
+	/**
+	 * 生成签名数据
+	 *
+	 * @param apiKey 待加密的数据
+	 * @param secretAndTimeKey  加密使用的key
+	 * @return 生成十六进制字符串
+	 * @throws ZiFiException
+	 */
+	public static String getV2Signature(byte[] apiKey, byte[] secretAndTimeKey, String algorithm) throws ZiFiException {
+		try {
+			SecretKeySpec signingKey = new SecretKeySpec(secretAndTimeKey, algorithm);
+			Mac mac = Mac.getInstance(algorithm);
+			mac.init(signingKey);
+			byte[] rawHmac = mac.doFinal(apiKey);
+			return CommonUtils.bytesToHexString(rawHmac);
+		} catch (Exception e) {
+			throw new ZiFiException("Failed to get v2 signature,algorithm :" + algorithm,e);
+		}
+	}
+
 }

@@ -5,24 +5,23 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import org.junit.Test;
 
 import com.zifisense.zeta.http.api.cache.CacheFactory;
 import com.zifisense.zeta.http.api.model.ApiResponse;
 import com.zifisense.zeta.http.api.model.HttpMethod;
 
-import net.sf.json.JSONObject;
-
+/**
+ * v1测试用例,现在转到ZifiNewHttpClientTest
+ */
+@Deprecated
 public class ZiFiServiceHelperTest {
-	private static final String API_KEY = "c6d8e5d10c6a4a5e8d9666ffd4c54d7c";
-	private static final String SECRET_KEY = "91b7dcb079cf4040afd6e9b8146151d6";
-	private static final String HOST_NAME = "https://test-cn.zifisense.com";
-	private static final String DEVICE_UID = "a0000001";
-
-//	private static final String API_KEY = "07ae55d646d0cb80d957dccd5b397401";
-//	private static final String SECRET_KEY = "c020a297718c253afeaf88ff1eabe8f1";
-//	private static final String HOST_NAME = "http://192.168.0.12:25455";
-//	private static final String DEVICE_UID = "00000001";
+	private static final String API_KEY = "";
+	private static final String SECRET_KEY = "";
+	private static final String HOST_NAME = "";
+	private static final String DEVICE_UID = "";
 
 	private static final String API_GET_MS_LIST = "/teamcms/ws/zeta_v1/wan_ms/query/%s/getMsList";
 	private static final String API_GET_MS_STATUS = "/teamcms/ws/zeta_v1/wan_ms/query/%s/getMsStatus";
@@ -30,13 +29,13 @@ public class ZiFiServiceHelperTest {
 
 
 	@Test
-	public void testGetJsonRequestSucc1() {
+	public void testGetMsStatus() {
 		ZiFiHttpClient ziFiHttpClient = new ZiFiHttpClient(API_KEY, SECRET_KEY, HOST_NAME);
 		try {
 			String resultJson = ziFiHttpClient.send(String.format(API_GET_MS_STATUS, DEVICE_UID), HttpMethod.GET, null,null, 10);
-			System.out.printf("%s,before:%s,after:%s\n", Thread.currentThread().getStackTrace()[1].getMethodName(),ziFiHttpClient.getApiConfig(), resultJson);
 			// 格式化返回的json数据
-			ApiResponse apiResponse = (ApiResponse) JSONObject.toBean(JSONObject.fromObject(resultJson),ApiResponse.class);
+			ApiResponse apiResponse = JSONObject.parseObject(resultJson,ApiResponse.class);
+			System.out.println(JSON.toJSONString(apiResponse));
 			assertEquals(0, apiResponse.getStatus().longValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,14 +44,13 @@ public class ZiFiServiceHelperTest {
 	}
 
 	@Test
-	public void testGetJsonRequestSucc2() {
+	public void testGetMsList() {
 		ZiFiHttpClient ziFiHttpClient = new ZiFiHttpClient(API_KEY, SECRET_KEY, HOST_NAME);
-		String apiInfoString = String.format("%s,%s,%s",ziFiHttpClient.getApiConfig().getApiKey(),ziFiHttpClient.getApiConfig().getSecretKey(),ziFiHttpClient.getApiConfig().getHostName());
 		try {
 			String resultJson = ziFiHttpClient.send(String.format(API_GET_MS_LIST, API_KEY), HttpMethod.GET, null, null,10);
-			System.out.printf("%s,before:%s,after:%s\n", Thread.currentThread().getStackTrace()[1].getMethodName(),apiInfoString, resultJson);
 			// 格式化返回的json数据
-			ApiResponse apiResponse = (ApiResponse) JSONObject.toBean(JSONObject.fromObject(resultJson),ApiResponse.class);
+			ApiResponse apiResponse = JSONObject.parseObject(resultJson,ApiResponse.class);
+			System.out.println(JSON.toJSONString(apiResponse));
 			assertEquals(0, apiResponse.getStatus().longValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +70,7 @@ public class ZiFiServiceHelperTest {
 			String resultJson = ziFiHttpClient.send(String.format(API_POST_MS_UPLOADDATA, DEVICE_UID), HttpMethod.POST,null, bodyMap, 10);
 			System.out.printf("%s,before:%s,after:%s\n", Thread.currentThread().getStackTrace()[1].getMethodName(),ziFiHttpClient.getApiConfig().toString() + bodyMap, resultJson);
 			// 格式化返回的json数据
-			ApiResponse apiResponse = (ApiResponse) JSONObject.toBean(JSONObject.fromObject(resultJson),ApiResponse.class);
+			ApiResponse apiResponse = JSONObject.parseObject(resultJson,ApiResponse.class);
 			assertEquals(0, apiResponse.getStatus().longValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +94,7 @@ public class ZiFiServiceHelperTest {
 			String resultJson = ziFiHttpClient.send(String.format(API_POST_MS_UPLOADDATA, DEVICE_UID), HttpMethod.POST,queryMap, bodyMap, 10);
 			System.out.printf("%s,before:%s,after:%s\n", Thread.currentThread().getStackTrace()[1].getMethodName(),ziFiHttpClient.getApiConfig().toString() + bodyMap, resultJson);
 			// 格式化返回的json数据
-			ApiResponse apiResponse = (ApiResponse) JSONObject.toBean(JSONObject.fromObject(resultJson),ApiResponse.class);
+			ApiResponse apiResponse = JSONObject.parseObject(resultJson,ApiResponse.class);
 			assertEquals(0, apiResponse.getStatus().longValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,7 +115,7 @@ public class ZiFiServiceHelperTest {
 			String resultJson = ziFiHttpClient.send(String.format(API_POST_MS_UPLOADDATA, DEVICE_UID), HttpMethod.POST,null, bodyMap, 10);
 			System.out.printf("%s,before:%s,after:%s\n", Thread.currentThread().getStackTrace()[1].getMethodName(),ziFiHttpClient.getApiConfig().toString() + bodyMap, resultJson);
 			// 格式化返回的json数据
-			ApiResponse apiResponse = (ApiResponse) JSONObject.toBean(JSONObject.fromObject(resultJson),ApiResponse.class);
+			ApiResponse apiResponse = JSONObject.parseObject(resultJson,ApiResponse.class);
 			assertEquals(0, apiResponse.getStatus().longValue());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,5 +221,4 @@ public class ZiFiServiceHelperTest {
 		}
 		fail("Simulated exception, no exception reported！");
 	}
-
 }

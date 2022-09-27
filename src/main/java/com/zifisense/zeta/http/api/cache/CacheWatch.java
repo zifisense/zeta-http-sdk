@@ -1,5 +1,8 @@
 package com.zifisense.zeta.http.api.cache;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +14,8 @@ import java.util.Set;
  * @date 2020年8月31日
  */
 @SuppressWarnings("all")
-public class CacheWatch extends Thread{	
+public class CacheWatch extends Thread{
+	private static final Logger log = LoggerFactory.getLogger(CacheWatch.class);
 	//轮询时间
 	private static final long PERIOD_TIME = 1 * 1000L;
 	CacheMap instance = CacheFactory.getInstance();
@@ -39,7 +43,7 @@ public class CacheWatch extends Thread{
 					removeSet = null;
 					sleep(PERIOD_TIME);
 				} catch (Exception e) {
-					e.getStackTrace();
+					log.error("zeta http sdk run CacheWatch Task happend error ,e={}",e);
 				}
 			} 
 		}
