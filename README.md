@@ -8,7 +8,7 @@
 ============
 此SDK是网管平台的`JAVA` http对接方式以及示例代码，如果非java语言，请使用http的方法请求即可，接口参考文档
 
-* **[Java语言-Jar](https://github.com/zifisense/zeta-http-sdk/releases)**
+* **[Java语言](https://github.com/zifisense/zeta-http-sdk/releases)**
 
 安装
 ============
@@ -34,7 +34,7 @@
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>2.0.2</version>
+        <version>1.7.36</version>
     </dependency>
 
     <!-- 如果项目中已经引入日志框架了，就不必引入了 -->
@@ -42,19 +42,14 @@
     <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.2.3</version>
-    </dependency>
-    <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>ch.qos.logback</artifactId>
-        <version>1.2.3</version>
+        <version>1.2.11</version>
     </dependency>
 ```
 
 如果不使用 Maven 构建项目，则项目 libs/ 目录下有依赖的 jar 可复制到你的项目里去。
 
 
-SDK使用方式
+使用方式
 =================
 
 ```java
