@@ -79,7 +79,7 @@
 > 1. 更多的API接口请见文档<br>
 > 2. 默认使用的是v2版本(<img src="https://github.githubassets.com/images/icons/emoji/unicode/26a0.png"  height="20" width="20">注意：v1和v2接口的分辨是根据请求URL中的zeta_v2或zeta_v1来分辨的)
 > 3. `ZifiHttpClientFactory.getClient`默认使用的v2版本的客户端如果想使用v1的客户端(v1不推荐使用,此处只是为了兼容版本)，则使用下面方式来显示辨识v1<br/>`IZifiHttpClient client = ZifiHttpClientFactory.getClient(hostName, api_key, secret_key,ZifiHttpVersion.V1);`
-
+> 4. 请求都没有明显携带access_token参数，是因为内部代码已经实现token的携带，如果要自己携带，也可以跟在url后面,获取token的方法是`client.getTokenRequest()`
 
 完整的代码示例
 ============
